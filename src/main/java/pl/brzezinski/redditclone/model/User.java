@@ -24,7 +24,7 @@ public class User {
     private Long userId;
 
     @NotBlank(message = "Username is required")
-    private String username;
+    private String userName;
 
     @NotBlank(message = "Password is required")
     private String password;

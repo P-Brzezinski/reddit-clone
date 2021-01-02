@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.brzezinski.redditclone.dto.RegisterRequest;
+import pl.brzezinski.redditclone.exceptions.SpringRedditException;
 import pl.brzezinski.redditclone.model.NotificationEmail;
 import pl.brzezinski.redditclone.model.User;
 import pl.brzezinski.redditclone.model.VerificationToken;
@@ -13,6 +14,7 @@ import pl.brzezinski.redditclone.repository.UserRepository;
 import pl.brzezinski.redditclone.repository.VerificationTokenRepository;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,7 +29,7 @@ public class AuthService {
     @Transactional
     public void signUp(RegisterRequest registerRequest) {
         User user = new User();
-        user.setUsername(registerRequest.getUserName());
+        user.setUserName(registerRequest.getUserName());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
@@ -51,5 +53,19 @@ public class AuthService {
 
         verificationTokenRepository.save(verificationToken);
         return token;
+    }
+
+    public void verifyAccount(String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        verificationToken.orElseThrow(() -> new SpringRedditException("Invalid Token"));
+        fetchUserAndEnable(verificationToken.get());
+    }
+
+    @Transactional
+    public void fetchUserAndEnable(VerificationToken verificationToken) {
+        String userName = verificationToken.getUser().getUserName();
+        User user = userRepository.findByUserName(userName).orElseThrow(() -> new SpringRedditException("User with name " + userName + " not found."));
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }
