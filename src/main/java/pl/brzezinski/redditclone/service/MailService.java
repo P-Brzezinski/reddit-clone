@@ -1,4 +1,4 @@
-package pl.brzezinski.service;
+package pl.brzezinski.redditclone.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

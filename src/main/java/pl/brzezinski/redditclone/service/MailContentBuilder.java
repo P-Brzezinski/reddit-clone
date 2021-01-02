@@ -1,4 +1,4 @@
-package pl.brzezinski.service;
+package pl.brzezinski.redditclone.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
