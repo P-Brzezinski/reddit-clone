@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.brzezinski.redditclone.dto.AuthenticationResponse;
 import pl.brzezinski.redditclone.dto.LoginRequest;
 import pl.brzezinski.redditclone.dto.RegisterRequest;
 import pl.brzezinski.redditclone.service.AuthService;
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest loginRequest) {
-        authService.login(loginRequest);
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+       return authService.login(loginRequest);
     }
 }
