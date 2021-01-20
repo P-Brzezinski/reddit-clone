@@ -125,11 +125,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
-
-        <!--<path>-->
-        <!--<groupId>org.projectlombok</groupId>-->
-        <!--<articaftId>lombok</articaftId>-->
-        <!--<version>1.18.8</version>-->
-        <!--</path>-->
